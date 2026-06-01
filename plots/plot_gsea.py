@@ -1,9 +1,14 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 def plot_pathway_heatmap(df):
+
+    if df is None or df.empty:
+        print("[WARNING] Skipping pathway heatmap: no GSEA results")
+        return None
 
     df = df.copy()
 
@@ -19,6 +24,10 @@ def plot_pathway_heatmap(df):
         aggfunc="mean"
     )
 
+    if pivot.empty:
+        print("[WARNING] Skipping pathway heatmap: empty NES matrix")
+        return None
+
     # safety
     pivot = pivot.astype(float)
 
@@ -32,5 +41,8 @@ def plot_pathway_heatmap(df):
 
     plt.title("Pathway activity (NES)")
     plt.tight_layout()
-    plt.savefig("results/figures/pathway_heatmap.png", dpi=300)
-    #plt.close()
+    output = Path("results/figures/pathway_heatmap.png")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(output, dpi=300)
+    plt.close()
+    return output

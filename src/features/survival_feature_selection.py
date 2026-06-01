@@ -16,22 +16,22 @@ class SurvivalFeatureSelector:
 
             df = pd.DataFrame({
                 "gene": expr[gene],
-                "OS.time": clinical["OS.time"],
-                "OS": clinical["OS"]
+                "time": clinical["time"],
+                "event": clinical["event"]
             })
 
             try:
                 cph = CoxPHFitter()
                 cph.fit(df,
-                        duration_col="OS.time",
-                        event_col="OS")
+                        duration_col="time",
+                        event_col="event")
 
                 p = cph.summary.loc["gene", "p"]
 
                 if p < self.p_threshold:
                     selected_genes.append(gene)
 
-            except:
+            except Exception:
                 continue
 
         print(f"[INFO] Selected genes: {len(selected_genes)}")

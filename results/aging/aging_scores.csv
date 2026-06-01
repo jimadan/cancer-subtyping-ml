@@ -1,3 +1,3 @@
-sample,cluster,inflammaging,mitochondrial_stress,proteostasis_loss,cell_cycle_dysregulation,identity_drift,dna_damage_response
-0,0,1.4953032316684742,0,0,1.6994620451904536,1.4856214485317554,0
-1,1,-1.55084748891593,0,0,-1.6012300607286294,-1.489316216158832,0
+cluster,inflammaging,mitochondrial_stress,proteostasis_loss,cell_cycle_dysregulation,identity_drift,dna_damage_response
+0,1.4953870382702106,0,0,1.6590490703040974,0.0,0
+1,-1.5121216661233337,0,0,-1.672322516216163,-1.462873344603346,0

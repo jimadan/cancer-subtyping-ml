@@ -43,7 +43,7 @@ def differential_expression(expr, labels, cluster):
                 "pval": p,
                 "score": logfc * -np.log10(p + 1e-300)
             })
-        except:
+        except Exception:
             continue
 
     df = pd.DataFrame(out)
@@ -113,6 +113,28 @@ def run_gsea_pipeline(expr, clusters):
 
             except Exception as e:
                 print(f"[ERROR] cluster {cl} {gs}: {e}")
+
+    if not results_all:
+        print("[WARNING] No significant GSEA results found")
+        final = pd.DataFrame(
+            columns=[
+                "Name",
+                "Term",
+                "ES",
+                "NES",
+                "NOM p-val",
+                "FDR q-val",
+                "FWER p-val",
+                "Tag %",
+                "Gene %",
+                "Lead_genes",
+                "cluster",
+                "gene_set",
+                "pathway_group",
+            ]
+        )
+        final.to_csv("results/gsea/all_gsea_results.csv", index=False)
+        return final
 
     final = pd.concat(results_all, ignore_index=True)
     final.to_csv("results/gsea/all_gsea_results.csv", index=False)

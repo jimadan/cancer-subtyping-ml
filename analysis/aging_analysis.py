@@ -84,7 +84,7 @@ def compute_aging_scores(df):
             ]
 
             # IMPORTANT: very relaxed
-            matched = matched.loc[sub["FDR q-val"] < 0.50].copy()
+            matched = matched.loc[matched["FDR q-val"] < 0.50].copy()
 
             row[program] = matched["NES"].mean() if len(matched) > 0 else 0
 

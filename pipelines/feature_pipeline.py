@@ -1,5 +1,4 @@
 from src.features.feature_filtering import FeatureFilter
-from src.features.survival_feature_selection import SurvivalFeatureSelector
 from src.features.scaling import ExpressionScaler
 from src.features.dimensionality_reduction import PCAReducer
 from src.features.cox_feature_selection import cox_feature_selection
@@ -14,18 +13,13 @@ def run_feature_pipeline(expr, clinical):
 
     print("\n[STEP] Survival feature selection...")
 
-    # survival_selector = SurvivalFeatureSelector(p_threshold=0.05)
-    # expr_survival = survival_selector.fit_transform(expr_filtered, clinical)
-
-    print(clinical.columns)
-
     expr_survival, ranked_genes = cox_feature_selection(
         expr_filtered,
         clinical,
         top_n=500
     )
 
-    print("[DEBUG] expr_filtered shape:", expr_filtered.shape)
+    print("[INFO] Cox-selected expression shape:", expr_survival.shape)
 
     print("\n[STEP] Scaling...")
 

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from pathlib import Path
 from src.evaluation.survival import SurvivalAnalysis
 from lifelines.statistics import multivariate_logrank_test
 
@@ -10,9 +11,12 @@ def run_survival_pipeline(clinical, clusters, X_umap, labels):
     sa = SurvivalAnalysis()
     df = sa.prepare_data(clinical, clusters)
 
+    Path("results/figures").mkdir(parents=True, exist_ok=True)
+
     plt.figure()
     sa.plot_km(df)
     plt.savefig("results/figures/km_plot.png")
+    plt.close()
 
     stats = sa.logrank_test_between_clusters(df)
     print("[INFO] Log-rank test:", stats)

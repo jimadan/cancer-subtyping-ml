@@ -1,8 +1,13 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pathlib import Path
 
 
 def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
+
+    if aging_df is None or aging_df.empty:
+        print("[WARNING] Skipping aging score plot: no aging scores")
+        return None
 
     melted = aging_df.melt(
         id_vars="cluster",
@@ -23,10 +28,17 @@ def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
     plt.xticks(rotation=30)
     plt.tight_layout()
 
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(output, dpi=300)
-    #plt.close()
+    plt.close()
+    return output
 
 def plot_aging_heatmap(aging_df, output="results/figures/aging_heatmap.png"):
+
+    if aging_df is None or aging_df.empty:
+        print("[WARNING] Skipping aging heatmap: no aging scores")
+        return None
 
     matrix = aging_df.set_index("cluster")
 
@@ -42,5 +54,8 @@ def plot_aging_heatmap(aging_df, output="results/figures/aging_heatmap.png"):
     plt.title("Aging program activity")
 
     plt.tight_layout()
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(output, dpi=300)
-    #plt.close()
+    plt.close()
+    return output

@@ -39,27 +39,26 @@ The pipeline uses publicly available data from:
 
 ```text
 RNA-seq expression + clinical data
-        ↓
+        ->
 Preprocessing (normalization + filtering)
-        ↓
+        ->
 Feature engineering (survival gene selection)
-        ↓
+        ->
 PCA dimensionality reduction
-        ↓
+        ->
 Clustering (model selection + optimal k)
-        ↓
+        ->
 UMAP visualization embedding
-        ↓
+        ->
 Subtype assignment
-        ↓
+        ->
 GSEA functional enrichment analysis
-        ↓
+        ->
 Pathway aggregation (NES matrix)
-        ↓
+        ->
 Aging signature scoring
-        ↓
-Survival analysis (Kaplan–Meier)
+        ->
+Survival analysis (Kaplan-Meier)
+```
 
-
-
-# This project was developed iteratively using AI-assisted coding tools for refactoring and documentation, with full human supervision and validation.
+This project was developed iteratively using AI-assisted coding tools for refactoring and documentation, with full human supervision and validation.

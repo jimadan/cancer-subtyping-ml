@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pathlib import Path
 from scipy.stats import ttest_ind
 
 
@@ -57,6 +58,8 @@ def run_biological_analysis(expr_df, clusters, n_clusters=3):
     """
     Full wrapper: DE + marker extraction per cluster
     """
+
+    Path("results").mkdir(parents=True, exist_ok=True)
 
     all_results = {}
     all_markers = {}

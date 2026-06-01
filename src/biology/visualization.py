@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 def plot_marker_heatmap(expr_df, clusters, markers, output_path="results/figures/marker_heatmap.png"):
@@ -49,11 +50,13 @@ def plot_marker_heatmap(expr_df, clusters, markers, output_path="results/figures
     # 4. split data
     data = subset.drop(columns=["cluster"])
 
-    # 5. cluster colors (THIS is the missing part)
-    cluster_colors = subset["cluster"].map({
-        0: "#4C78A8",   # blue
-        1: "#F58518"    # orange
-    })
+    # 5. cluster colors
+    palette = sns.color_palette("tab10", n_colors=subset["cluster"].nunique())
+    color_map = {
+        cluster: palette[i]
+        for i, cluster in enumerate(sorted(subset["cluster"].unique()))
+    }
+    cluster_colors = subset["cluster"].map(color_map)
 
     # 6. plot heatmap WITH cluster bar
     g = sns.clustermap(
@@ -68,5 +71,6 @@ def plot_marker_heatmap(expr_df, clusters, markers, output_path="results/figures
 
     g.fig.suptitle("Cluster-specific marker gene expression", y=1.02)
 
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()

@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+
 
 class FeatureFilter:
     """
@@ -10,10 +10,12 @@ class FeatureFilter:
     for cancer subtyping (clustering).
     """
 
-    def __init__(self,
-                 min_variance=0.5,
-                 top_n_genes=None,
-                 method="variance"):
+    def __init__(
+        self,
+        min_variance=0.5,
+        top_n_genes=None,
+        method="variance",
+    ):
         """
         Parameters
         ----------
@@ -31,9 +33,6 @@ class FeatureFilter:
         self.top_n_genes = top_n_genes
         self.method = method
 
-    # -------------------------
-    # Main function
-    # -------------------------
     def fit_transform(self, expr: pd.DataFrame) -> pd.DataFrame:
         """
         Apply feature filtering to gene expression matrix.
@@ -41,10 +40,8 @@ class FeatureFilter:
 
         if self.method == "variance":
             expr = self._variance_filter(expr)
-
         elif self.method == "mad":
             expr = self._mad_filter(expr)
-
         else:
             raise ValueError("Method must be 'variance' or 'mad'")
 
@@ -59,10 +56,9 @@ class FeatureFilter:
         """
 
         variances = expr.var(axis=0)
-
         filtered = expr.loc[:, variances > self.min_variance]
 
-        print(f"[INFO] Variance filtering: {expr.shape[1]} → {filtered.shape[1]} genes")
+        print(f"[INFO] Variance filtering: {expr.shape[1]} -> {filtered.shape[1]} genes")
 
         return filtered
 
@@ -72,11 +68,11 @@ class FeatureFilter:
         More robust to outliers than variance.
         """
 
-        mad = expr.mad(axis=0)
-
+        medians = expr.median(axis=0)
+        mad = (expr - medians).abs().median(axis=0)
         filtered = expr.loc[:, mad > self.min_variance]
 
-        print(f"[INFO] MAD filtering: {expr.shape[1]} → {filtered.shape[1]} genes")
+        print(f"[INFO] MAD filtering: {expr.shape[1]} -> {filtered.shape[1]} genes")
 
         return filtered
 
@@ -86,9 +82,7 @@ class FeatureFilter:
         """
 
         variances = expr.var(axis=0)
-
         top_genes = variances.sort_values(ascending=False).head(self.top_n_genes).index
-
         filtered = expr.loc[:, top_genes]
 
         print(f"[INFO] Top-{self.top_n_genes} genes selected")

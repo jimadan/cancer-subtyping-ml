@@ -22,10 +22,14 @@ def cox_feature_selection(expr: pd.DataFrame, clinical: pd.DataFrame, top_n=2000
 
             results.append((gene, p))
 
-        except:
+        except Exception:
             continue
 
     ranked = pd.DataFrame(results, columns=["gene", "p"])
+
+    if ranked.empty:
+        raise ValueError("Cox feature selection did not fit any gene models")
+
     ranked = ranked.sort_values("p")
 
     selected_genes = ranked.head(top_n)["gene"].tolist()

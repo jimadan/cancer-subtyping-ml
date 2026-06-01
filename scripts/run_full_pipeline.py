@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipelines.preprocessing_pipeline import run_preprocessing
 from pipelines.feature_pipeline import run_feature_pipeline
 from pipelines.clustering_pipeline import run_clustering_pipeline
-from pipelines.biology_pipeline import run_biology_pipeline
 from pipelines.gsea_pipeline import run_gsea_pipeline
 from pipelines.survival_pipeline import run_survival_pipeline
 
@@ -23,6 +22,10 @@ from plots.plot_aging import plot_aging_scores, plot_aging_heatmap
 
 
 def main():
+
+    Path("results/figures").mkdir(parents=True, exist_ok=True)
+    Path("results/gsea").mkdir(parents=True, exist_ok=True)
+    Path("results/aging").mkdir(parents=True, exist_ok=True)
 
     bundle = {}
 
@@ -94,8 +97,7 @@ def main():
     # -------------------------
     gsea_df.to_csv("results/gsea/all_gsea_results.csv", index=False)
 
-    aging_scores.index.name = "sample"
-    aging_scores.to_csv("results/aging/aging_scores.csv")
+    aging_scores.to_csv("results/aging/aging_scores.csv", index=False)
 
     print("[INFO] Pipeline completed successfully")
 

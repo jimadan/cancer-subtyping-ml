@@ -79,11 +79,14 @@ class ExpressionPreprocessor:
         return np.log2(expr + 1)
 
     # -------------------------
-    # Step 5: variance filtering
+    # Step 5: MAD filtering
     # -------------------------
     def _filter_low_variance(self, expr: pd.DataFrame) -> pd.DataFrame:
 
-        variances = expr.var(axis=0)
-        expr = expr.loc[:, variances > self.min_variance]
+        #variances = expr.var(axis=0)
+        #expr = expr.loc[:, variances > self.min_variance]
+        
+        mad = (expr - expr.median()).abs().median(axis=0)
+        expr = expr.loc[:, mad > self.min_variance]
 
         return expr

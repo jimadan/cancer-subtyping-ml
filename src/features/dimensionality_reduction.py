@@ -7,7 +7,7 @@ class PCAReducer:
     def __init__(self, n_components=30):
 
         self.n_components = n_components
-        self.model = PCA(n_components=n_components)
+        self.model = PCA(n_components=n_components, random_state=42)
 
     def fit_transform(self, X):
 

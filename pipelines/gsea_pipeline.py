@@ -20,9 +20,11 @@ PATHWAY_GROUPS = {
 
 def assign_pathway_group(term):
     t = str(term).upper()
-    for g, keys in PATHWAY_GROUPS.items():
-        if any(k in t for k in keys):
-            return g
+
+    for group_name, keywords in PATHWAY_GROUPS.items():
+        if any(keyword in t for keyword in keywords):
+            return group_name
+
     return "other"
 
 

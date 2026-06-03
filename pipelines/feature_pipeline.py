@@ -13,6 +13,7 @@ def run_feature_pipeline(expr, clinical):
 
     print("\n[STEP] Survival feature selection...")
 
+    # Univariate Cox-based feature screening
     expr_survival, ranked_genes = cox_feature_selection(
         expr_filtered,
         clinical,
@@ -28,7 +29,9 @@ def run_feature_pipeline(expr, clinical):
 
     print("\n[STEP] PCA...")
 
-    pca = PCAReducer(n_components=20)
-    X_pca = pca.fit_transform(X_scaled)
+    pca = PCAReducer(n_components=0.95) # 20, variance=0.95
+    X_pca, n_components = pca.fit_pca_dynamic(X_scaled) # pca.fit_transform(X_scaled)
+
+    print("[INFO] PCA components:", n_components)
 
     return expr_filtered, expr_survival, X_pca

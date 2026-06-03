@@ -25,3 +25,13 @@ class PCAReducer:
         )
 
         return X_pca
+    
+    def fit_pca_dynamic(self, X, variance=0.95):
+
+        if (self.n_components != variance):
+            self.n_components = variance
+            self.model = PCA(n_components=variance, random_state=42)
+        
+        X_pca = self.model.fit_transform(X)
+
+        return X_pca, self.model.n_components_

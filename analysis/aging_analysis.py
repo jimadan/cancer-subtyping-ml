@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 # ============================================================
@@ -86,7 +87,21 @@ def compute_aging_scores(df):
             # IMPORTANT: very relaxed
             matched = matched.loc[matched["FDR q-val"] < 0.50].copy()
 
-            row[program] = matched["NES"].mean() if len(matched) > 0 else 0
+            weights = -np.log10(
+                matched["FDR q-val"] + 1e-10
+            )
+
+            #row[program] = matched["NES"].mean() if len(matched) > 0 else 0
+            row[program] = (
+                np.average(
+                    matched["NES"],
+                    weights=weights
+                )
+                if len(matched) > 0
+                else 0
+            )
+
+            row[f"{program}_n"] = len(matched)
 
         scores.append(row)
 

@@ -65,11 +65,11 @@ def build_nes_matrix(
             df["FDR q-val"] < fdr_threshold
         ]
 
-    if df.empty:
+        if df.empty:
 
-        print("[WARNING] No pathways after filtering")
+            print("[WARNING] No pathways after filtering")
 
-        return pd.DataFrame()
+            return pd.DataFrame()
 
     matrix = df.pivot_table(
 

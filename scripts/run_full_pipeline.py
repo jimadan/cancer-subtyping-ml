@@ -17,8 +17,8 @@ from analysis.pathway_analysis import build_nes_matrix
 from analysis.aging_analysis import compute_aging_scores
 
 # Plots
-from plots.plot_gsea import plot_pathway_heatmap
-from plots.plot_aging import plot_aging_scores, plot_aging_heatmap
+from plots.plot_gsea import plot_pathway_heatmap, plot_pathway_support_heatmap
+from plots.plot_aging import plot_aging_scores, plot_aging_heatmaps
 
 
 def main():
@@ -75,10 +75,11 @@ def main():
 
     # GSEA heatmap
     plot_pathway_heatmap(gsea_df)
+    plot_pathway_support_heatmap(gsea_df)
 
     # Aging plots
     plot_aging_scores(aging_scores)
-    plot_aging_heatmap(aging_scores)
+    plot_aging_heatmaps(aging_scores)
 
     # UMAP plot
     plt.figure(figsize=(8,6))

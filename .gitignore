@@ -225,3 +225,10 @@ data/processed/
 *.txt
 *.tsv
 *.gz
+
+# Results
+results/
+*.csv
+*.pdf
+*.html
+*.png

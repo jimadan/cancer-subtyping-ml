@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import gseapy as gp
 from scipy.stats import ttest_ind
+from statsmodels.stats.multitest import multipletests
 from pathlib import Path
 
 
@@ -29,28 +30,51 @@ def assign_pathway_group(term):
 
 
 def differential_expression(expr, labels, cluster):
+
     g1 = expr[labels == cluster]
     g2 = expr[labels != cluster]
 
     out = []
+    eps = 1e-9
 
     for gene in expr.columns:
+
         try:
-            _, p = ttest_ind(g1[gene], g2[gene], equal_var=False, nan_policy="omit")
-            logfc = g1[gene].mean() - g2[gene].mean()
+            _, p = ttest_ind(
+                g1[gene],
+                g2[gene],
+                equal_var=False,
+                nan_policy="omit"
+            )
+
+            logfc = np.log2(
+                (g1[gene].mean() + eps) /
+                (g2[gene].mean() + eps)
+            )
 
             out.append({
                 "gene": gene,
                 "logFC": logfc,
-                "pval": p,
-                "score": logfc * -np.log10(p + 1e-300)
+                "pval": p
             })
+
         except Exception:
             continue
 
     df = pd.DataFrame(out)
+
     if df.empty:
         return None
+
+    df["padj"] = multipletests(
+        df["pval"],
+        method="fdr_bh"
+    )[1]
+
+    df["score"] = (
+        df["logFC"]
+        * -np.log10(df["padj"] + 1e-300)
+    )
 
     return df.sort_values("score", ascending=False)
 

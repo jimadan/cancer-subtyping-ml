@@ -4,29 +4,7 @@ import gseapy as gp
 from scipy.stats import ttest_ind
 from statsmodels.stats.multitest import multipletests
 from pathlib import Path
-
-
-# ============================================================
-# PATHWAY GROUPS (generic only)
-# ============================================================
-
-PATHWAY_GROUPS = {
-    "inflammation": ["IMMUNE", "INFLAM", "TNF", "INTERFERON", "IL6", "JAK", "NF"],
-    "cell_cycle": ["CELL CYCLE", "E2F", "G2M", "MITOTIC", "CHECKPOINT", "MYC"],
-    "senescence": ["P53", "APOPT", "TELO"],
-    "metabolism": ["MTOR", "OXID", "MITO", "ROS", "HYPOX", "AUTOPH"],
-    "stemness": ["WNT", "NOTCH", "TGF", "EMT"]
-}
-
-
-def assign_pathway_group(term):
-    t = str(term).upper()
-
-    for group_name, keywords in PATHWAY_GROUPS.items():
-        if any(keyword in t for keyword in keywords):
-            return group_name
-
-    return "other"
+from analysis.pathway_analysis import assign_pathway_group
 
 
 def differential_expression(expr, labels, cluster):

@@ -1,4 +1,6 @@
+import umap
 from sklearn.metrics import silhouette_score
+
 from src.models.clustering import ClusteringModel
 
 
@@ -9,9 +11,6 @@ def run_clustering_pipeline(X_pca):
     - PCA space used for clustering
     - k selection using silhouette score
     """
-
-    import umap
-
     print("\n[STEP] UMAP...")
 
     reducer = umap.UMAP(

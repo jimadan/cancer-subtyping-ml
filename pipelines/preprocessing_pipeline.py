@@ -1,10 +1,11 @@
+from pathlib import Path
+
+import pandas as pd
+
 from src.data.loader.data_loader import load_expression, load_clinical
 from src.data.expression_preprocess import ExpressionPreprocessor
 from src.data.clinical_preprocess import ClinicalPreprocessor
 from src.data.alignment import align_datasets
-from pathlib import Path
-
-import pandas as pd
 
 
 def run_preprocessing(cache=True):

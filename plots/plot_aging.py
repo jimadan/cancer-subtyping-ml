@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 from pathlib import Path
 
@@ -14,14 +15,27 @@ def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
     # ----------------------------
     # split score vs n columns
     # ----------------------------
-    score_df = df[[c for c in df.columns if not c.endswith("_n")]]
+    score_cols = [
+        c
+        for c in df.columns
+        if c != "cluster"
+        and not c.endswith("_n")
+        and pd.api.types.is_numeric_dtype(df[c])
+    ]
+
+    if not score_cols:
+        print("[WARNING] Skipping aging score plot: no numeric aging scores")
+        return None
+
+    score_df = df[["cluster", *score_cols]]
     n_df = df[[c for c in df.columns if c.endswith("_n")]]
 
     # rename n columns to match processes
     n_df.columns = [c.replace("_n", "") for c in n_df.columns]
 
-    # IMPORTANT FIX: correct index assignment
-    n_df.index = df["cluster"].values
+    n_df = n_df.copy()
+    n_df["cluster"] = df["cluster"].to_numpy()
+    n_df = n_df.set_index("cluster")
 
     # ----------------------------
     # reshape scores for barplot
@@ -31,10 +45,6 @@ def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
         var_name="aging_process",
         value_name="score"
     )
-
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    from pathlib import Path
 
     # ----------------------------
     # figure layout
@@ -53,6 +63,8 @@ def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
     )
 
     axes[0].set_title("Aging-related pathway activity")
+    axes[0].set_xlabel("Aging process")
+    axes[0].set_ylabel("Score")
     axes[0].tick_params(axis='x', rotation=30)
 
     # ----------------------------
@@ -82,8 +94,7 @@ def plot_aging_scores(aging_df, output="results/figures/aging_scores.png"):
 
     return output
 
-def plot_aging_heatmaps(aging_df, output="results/figures/aging_heatmaps.png"
-):
+def plot_aging_heatmaps(aging_df, output="results/figures/aging_heatmaps.png"):
 
     if aging_df is None or aging_df.empty:
         print("[WARNING] Skipping aging heatmap: no aging scores")
@@ -95,8 +106,17 @@ def plot_aging_heatmaps(aging_df, output="results/figures/aging_heatmaps.png"
     score_df = aging_df.set_index("cluster")
     count_df = aging_df.set_index("cluster")
 
-    score_cols = [c for c in score_df.columns if not c.endswith("_n")]
+    score_cols = [
+        c
+        for c in score_df.columns
+        if not c.endswith("_n")
+        and pd.api.types.is_numeric_dtype(score_df[c])
+    ]
     count_cols = [c for c in score_df.columns if c.endswith("_n")]
+
+    if not score_cols or not count_cols:
+        print("[WARNING] Skipping aging heatmap: missing score or count columns")
+        return None
 
     score_df = score_df[score_cols]
     count_df = count_df[count_cols]

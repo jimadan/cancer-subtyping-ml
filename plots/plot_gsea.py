@@ -1,6 +1,6 @@
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 from pathlib import Path
 
 
@@ -27,10 +27,6 @@ def plot_pathway_heatmap(df):
         return None
 
     pivot = pivot.astype(float)
-
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    from pathlib import Path
 
     fig, ax = plt.subplots(
         figsize=(16, 14),
@@ -72,10 +68,6 @@ def plot_pathway_support_heatmap(df):
         return None
 
     n_matrix = n_matrix.sort_index()
-
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    from pathlib import Path
 
     fig, ax = plt.subplots(
         figsize=(16, 14),

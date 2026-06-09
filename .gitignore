@@ -227,8 +227,10 @@ data/processed/
 *.gz
 
 # Results
-results/
-*.csv
+results/gsea/GO_Biological_Process_2023
+results/gsea/KEGG_2021_Human
+results/gsea/MSigDB_Hallmark_2020
+results/gsea/Reactome_2022
 *.pdf
 *.html
 *.png

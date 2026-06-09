@@ -1,0 +1,3 @@
+cluster,inflammaging,inflammaging_n,mitochondrial_stress,mitochondrial_stress_n,proteostasis_loss,proteostasis_loss_n,cell_cycle_dysregulation,cell_cycle_dysregulation_n,identity_drift,identity_drift_n,dna_damage_response,dna_damage_response_n
+0,1.6622135408734684,1,0,0,0,0,1.7568696043824255,4,1.514898306113387,1,1.535952643648814,1
+1,-1.6234796996294107,1,0,0,0,0,-1.735210594775634,4,-1.5308758475016058,1,-1.5355714321238183,1

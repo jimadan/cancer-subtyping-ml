@@ -31,7 +31,11 @@ run, inspected, or extended independently.
 The pipeline expects TCGA Breast Cancer (BRCA) inputs under `data/raw/`:
 
 - `HiSeqV2.txt`: RNA-seq gene expression matrix.
+  - Dataset page: [TCGA BRCA HiSeqV2 on UCSC Xena](https://xenabrowser.net/datapages/?dataset=TCGA.BRCA.sampleMap%2FHiSeqV2&host=https%3A%2F%2Ftcga.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443)
+  - Direct download: [TCGA.BRCA.sampleMap/HiSeqV2.gz](https://tcga-xena-hub.s3.us-east-1.amazonaws.com/download/TCGA.BRCA.sampleMap%2FHiSeqV2.gz)
 - `BRCA_survival.txt`: matched clinical survival metadata.
+  - Dataset page: [TCGA BRCA survival metadata on UCSC Xena](https://xenabrowser.net/datapages/?dataset=survival%2FBRCA_survival.txt&host=https%3A%2F%2Ftcga.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443)
+  - Direct download: [survival/BRCA_survival.txt](https://tcga-xena-hub.s3.us-east-1.amazonaws.com/download/survival%2FBRCA_survival.txt)
 
 These paths are configured in `config.py`.
 
